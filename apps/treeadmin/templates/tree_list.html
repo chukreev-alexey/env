@@ -1,0 +1,54 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+
+    <script src="/admin_media/js/jquery.min.js"></script>
+    <script src="media/js/lib/jquery.cookie.js"></script>
+    <script src="media/js/lib/jquery.jstree.js"></script>
+    <script>var permissions={{permissions|safe}};var parent_attr='{{parent_attr}}';</script>
+    <script src="media/js/jstree_admin.js"></script>
+    
+    <style>
+        .DContent:after
+        {
+            display: block;
+            clear: both;
+            content: ""
+        }
+        .DContent
+        {
+            width: 100%;
+            //zoom: 1;
+        }
+        .DLeftColumn
+        {
+            width: 30%;
+            float: left;
+        }
+        .DRightColumn
+        {
+            width: 68%;
+            float: right;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div id="content-main" class="DContent">
+    {% csrf_token %}
+    {% if has_add_permission %}
+        <ul class="object-tools">
+        <li>
+            <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+            {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+            </a>
+        </li>
+        </ul>
+    {% endif %}
+    <div id="tree" class="DLeftColumn">
+        <ul>{{ tree }}</ul>
+    </div>
+    <div id="inline-formset" class="DRightColumn"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% if objects and objects.paginator.num_pages != 1 %}
+<div class="Pager">
+    <div>
+        <span class="PagerTitle">Страницы:</span>
+        <span class="PagerControl">
+            <span class="PagerArrow">&larr;</span>
+            {% if objects.has_previous %}
+            <a href="?page={{ objects.previous_page_number }}{{ query }}">предыдущая</a>
+            {% else %}
+            <span>предыдущая</span>
+            {% endif %}
+        </span>
+        <span class="PagerControlMargin">&nbsp;</span>
+        <span class="PagerControl">
+            {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}{{ query }}">следующая</a>
+            {% else %}
+            <span>следующая</span>
+            {% endif %}
+            <span class="PagerArrow">&rarr;</span>
+        </span>
+    </div>
+    <div>
+        {% if not 1 in objects.paginator.page_range|slice:objects.paginator.slice %}
+            <span class="PagerFirstPage">
+                <a href="?page=1{{ query }}">первая страница ...</a>
+            </span>
+        {% endif %}
+        {% for page in objects.paginator.page_range|slice:objects.paginator.slice %}
+            <span class="PageNumber">
+                <a{% if page == objects.number %} class="Active"{% endif %} href="?page={{ page }}{{ query }}">{{ page }}</a>
+            </span>
+        {% endfor%}
+        {% if not objects.paginator.num_pages in objects.paginator.page_range|slice:objects.paginator.slice %}
+            <span class="PagerLastPage">
+                <a href="?page={{ objects.paginator.num_pages }}{{ query }}">... последняя страница</a>
+            </span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
