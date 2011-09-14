@@ -1,3 +1,4 @@
 /addon_apps
 /archive
 /projects
+*.pyc

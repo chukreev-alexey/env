@@ -10,7 +10,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 TIME_ZONE = 'Asia/Yekaterinburg'
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'ru'
 
 USE_I18N = True
 USE_L10N = True
