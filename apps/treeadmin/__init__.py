@@ -8,7 +8,7 @@ from django.shortcuts import  render_to_response, get_object_or_404
 import os
 from django.conf import settings
 from django.utils.encoding import force_unicode
-from django.utils import simplejson
+from django.utils import simplejson, translation
 from django import template
 from django.contrib.auth.decorators import permission_required
 
@@ -119,15 +119,26 @@ class TreeAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         node = get_object_or_404(self.Meta.model,pk=request.POST.get('node'))
-        setattr(node,self.tree_title_field, request.POST.get('name'))
+        setattr(node, self.tree_title_field, request.POST.get('name'))
         node.save()
         return HttpResponse(simplejson.dumps({'id': node.id }))
     
-    def hide_node(self,request):
+    def set_field_name(self, node, attrname, value):
+        try:
+            setattr(node, attrname, value)
+        except AttributeError:
+            attrname = '%s_%s' % (attrname, translation.get_language())
+            if hasattr(node, attrname):
+                try:
+                    setattr(node, attrname, value)
+                except AttributeError:
+                    pass
+    
+    def hide_node(self, request):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         node = get_object_or_404(self.Meta.model,pk=request.POST.get('node'))
-        node.visible = False
+        self.set_field_name(node, 'visible', False)
         node.save()
         return HttpResponse('')
     
@@ -135,7 +146,7 @@ class TreeAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         node = get_object_or_404(self.Meta.model,pk=request.POST.get('node'))
-        node.visible = True
+        self.set_field_name(node, 'visible', True)
         node.save()
         return HttpResponse('')
 
