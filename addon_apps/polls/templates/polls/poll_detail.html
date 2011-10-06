@@ -1,0 +1,42 @@
+{% if request.poll_data %}
+<div class="Poll">
+	<div class="GrayLight">
+		<div class="RoundedCoroners">
+			<div class="cn tl"></div>
+			<div class="cn tr"></div>
+			<div class="RoundedCoronersContent">
+                <h1>{{ request.poll_data|default:"" }}</h1>
+                {% if request.poll_form %}
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <ul>{{ request.poll_form.as_eul }}</ul>
+                        <div class="Buttons">
+                            <input type="submit" value='Ответить'/>
+                        </div>
+                    </form>
+                {% else %}
+                    <ul>
+                        {% for question in request.poll_data.questions.all %}
+                            <li>{{ question.question }}
+                                <ul>
+                                    {% for answer in question.answers.all %}
+                                        <li>
+                                            <div class="PollPercent">{{ answer.get_percent|floatformat }}%</div>
+                                            <div class="PollAnswer">
+                                                <div class="PollLine" style="width: {{ answer.get_percent|floatformat:"0" }}%">&nbsp;</div>
+                                                <div>{{ answer.answer }}</div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+			</div>
+			<div class="cn bl"></div>
+			<div class="cn br"></div>
+		</div>
+	</div>
+</div> 
+{% endif %}
