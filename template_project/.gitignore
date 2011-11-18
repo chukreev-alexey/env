@@ -1,0 +1,5 @@
+/cache
+/db
+/local_settings.py
+/media/_versions_
+*.pyc

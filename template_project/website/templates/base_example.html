@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink">
+<head>
+	<title>{{ request.settings.project }}{% block title %}{% if request.page.title %} - {{ request.page.title }}{% endif %}{% endblock %}</title>
+    {% block meta %}{{ request.page.meta|default:""|safe }}{% endblock %}
+	<meta name="robots" content="all" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/admin_media/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/media/js/common.js"></script>
+</head>
+<body>
+{% csrf_token %}
+{% if request.page.name %}<h1>{{ request.page.name }}</h1>{% endif %}
+{{ request.page.content|default:""|safe }}
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{{ block.super }}
+    {% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+	<div class="FormList">
+		<form action="." method="POST">
+			{% csrf_token %}
+			<ul>{{ form.as_eul }}</ul>
+			<div class="Buttons">
+				<input type="submit" value='Отправить'/>
+			</div>
+		</form>
+	</div>
+    {% endif %}
+{% endblock %}
