@@ -26,7 +26,7 @@ class PageMiddleware(object):
         if not request.infoblock:
             try:
                 request.infoblock = dict(
-                    [(item.name, item.content) \
+                    [(item.name, item.content_text or item.content_html) \
                      for item in InfoBlock.objects.all()]) 
                 cache.set('infoblock', request.infoblock, 60*60*24)
             except:

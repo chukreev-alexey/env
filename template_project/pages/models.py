@@ -19,7 +19,9 @@ class InfoBlock(models.Model):
             message=u"Имя может содержать только латинские буквы, цифры и _"
         )],
         help_text=u'request.infoblock.<<Имя по по латински>>')
-    content = tinymce_models.HTMLField(u'Содержимое блока',
+    content_text = models.TextField(u'Содержимое блока (текст)',
+            blank=True, null=True)
+    content_html = tinymce_models.HTMLField(u'Содержимое блока (html)',
             blank=True, null=True)
             
     def __unicode__(self):
